@@ -1,3 +1,4 @@
+#import
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,34 +8,39 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import make_regression
 import matplotlib.ticker as ticker
 
+#read file
 data = pd.read_csv('housing_sales_ma_ (1).csv')
+
+#print first 5 ellements
 data.head()
 
+#print types of the columns
 print(data.dtypes)
 
+#define x and y
 x = data['price_£']
 y = data['surface']
 
-# Filtrer les données pour la superficie entre 50 et 2500 m² et le prix entre 0 et 300,000 €
+# Filter the dataset to remove outliers and extreme values for better visualization
 filtered_data = data[(data['surface'] >= 50) & (data['surface'] <= 2500) &
                      (data['price_£'] >= 30000) & (data['price_£'] <= 300000)]
 
-# Définir les nouvelles variables filtrées
+# Redefine x and y based on the filtered data
 x_filtered = filtered_data['surface']
 y_filtered = filtered_data['price_£']
 
-# Visualiser uniquement les plages souhaitées
+# Create a scatter plot
 plt.figure(figsize=(10, 6))
 plt.scatter(x_filtered, y_filtered, c='blue', alpha=0.5)
 plt.xlabel('Superficie (m²)')
 plt.ylabel('Prix (€)')
 plt.title('Relation entre la Superficie et le Prix des Logements au Maroc')
 
-# Formatage des ticks pour afficher les prix
+# Format the Y-axis to display numbers with commas (e.g., 150,000)
 formatter = ticker.FuncFormatter(lambda x, _: f'{x:,.0f}')
 plt.gca().yaxis.set_major_formatter(formatter)
 
-# Limites des axes pour mieux cadrer la visualisation
+# Set axis limits
 plt.xlim([50, 2500])
 plt.ylim([0, 300000])
 
